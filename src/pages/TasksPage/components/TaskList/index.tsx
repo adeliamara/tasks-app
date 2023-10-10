@@ -1,5 +1,4 @@
 import { useContext } from "react"
-import { Task } from "../.."
 import { TaskListItem } from "../TaskListItem"
 import { TasksContext } from "../../../../providers/TasksContext"
 
