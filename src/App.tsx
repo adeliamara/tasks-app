@@ -1,51 +1,38 @@
 import './App.css'
-import { TasksPage } from './pages/TasksPage'
-import { NotFoundPage } from './pages/NotFoundPage'
-import { HomePage } from './pages/HomePage'
-import { TaskDetailsPage } from './pages/TaskDetailsPage'
-import { LoginPage } from './pages/LoginPage'
-import { TaskFormPage } from './pages/TasKFormPage'
-import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom';
+
+import './App.css';
+
+import { AppRoutes } from './router'; // Importe o componente de rotas aqui
 
 function App() {
-
   return (
     <div>
-        <BrowserRouter>
+      <BrowserRouter>
         <header>
           <h1>Tasks App Web</h1>
           <nav>
             <ul>
               <li>
-                <NavLink to={'/'}>Home</NavLink>
+                <a href="/">Home</a>
               </li>
               <li>
-                <NavLink to={'tasks'}>Tasks</NavLink>
+                <a href="/tasks">Tasks</a>
               </li>
               <li>
-                <NavLink to={'login'}>Login</NavLink>
+                <a href="/login">Login</a>
               </li>
               <li>
-                <NavLink to={'createTask'}>NovaTask</NavLink>
+                <a href="/createTask">NovaTask</a>
               </li>
             </ul>
           </nav>
         </header>
 
-        <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='tasks' >
-            <Route index element={<TasksPage />} />
-            <Route path=':id' element={<TaskDetailsPage />} />
-          </Route>
-          <Route path='login' element={<LoginPage />} />
-          <Route path='createTask' element={<TaskFormPage />} />
-          <Route path='*' element={<NotFoundPage />} />
-        </Routes>
+        <AppRoutes /> 
       </BrowserRouter>
-
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
