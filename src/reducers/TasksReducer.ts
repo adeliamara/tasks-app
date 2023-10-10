@@ -1,50 +1,48 @@
-import { ulid } from "ulidx";
 import { Task } from "../pages/TasksPage";
 
-export interface TaskState {
-  tasks: Task[];
+interface TaskState {
+  tasks: Task[]
 }
 
-export enum ActionType {
-  Added,
-  Changed,
-  Deleted,
-}
+export enum ActionType { ADDED, UPDATED, REMOVED, LOADED }
 
-type TaskAdded = { type: ActionType.Added; payload: { text: string } };
-type TaskChanged = { type: ActionType.Changed; payload: { task: Task } };
-type TaskDeleted = { type: ActionType.Deleted; payload: { id: string } };
+type ActionAdded = { type: ActionType.ADDED, payload: { task: Task } }
+type ActionUpdated = { type: ActionType.UPDATED, payload: { task: Task } }
+type ActionRemoved = { type: ActionType.REMOVED, payload: { id: string } }
+type ActionLoaded = { type: ActionType.LOADED, payload: { tasks: Task[] } }
 
-export type Action = TaskAdded | TaskChanged | TaskDeleted;
+type Action = ActionAdded | ActionUpdated | ActionRemoved | ActionLoaded
 
-const reducer = (state: TaskState, action: Action): TaskState => {
+
+function reducer(state: TaskState, action: Action): TaskState {
+
   switch (action.type) {
-    case ActionType.Added: {
-      const newTask = {
-        id: ulid(),
-        created_at: new Date(),
-        name: action.payload.text,
-        description: "...",
-        done: false,
-      };
+    case ActionType.ADDED: {
+      const new_task = action.payload.task
+      return { tasks: [new_task, ...state.tasks] }
+    }
+    case ActionType.UPDATED: {
+      const task_updated = action.payload.task
+      const tasks = state.tasks.filter(task =>
+        task.id === task_updated.id ? task_updated : task
+      )
 
-      return { tasks: [newTask, ...state.tasks] };
+      return { tasks }
     }
-    case ActionType.Changed: {
-      const changedTask = action.payload.task;
-      const tasks = state.tasks.filter((task) =>
-        task.id === changedTask.id ? changedTask : task
-      );
-      return { tasks };
+    case ActionType.REMOVED: {
+      const removed_id = action.payload.id
+      return { tasks: state.tasks.filter(t => t.id !== removed_id) }
     }
-    case ActionType.Deleted: {
-      return { tasks: state.tasks.filter((t) => t.id !== action.payload.id) };
+    case ActionType.LOADED: {
+      return { tasks: [...action.payload.tasks] }
     }
     default: {
-      console.debug("Invalid Task Action type!");
-      return state;
+      console.warn('Action Inválida')
+      return state
     }
-  }
-};
 
-export { reducer as taskStateReducer };
+  }
+
+}
+
+export { reducer as TaskReducer };
