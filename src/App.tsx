@@ -1,14 +1,11 @@
+import { BrowserRouter as Router } from 'react-router-dom'; // Importe BrowserRouter em vez de Router
 import './App.css'
-import { BrowserRouter } from 'react-router-dom';
-
-import './App.css';
-
-import { AppRoutes } from './router'; // Importe o componente de rotas aqui
+import { AppRoutes } from './router';
 
 function App() {
   return (
-    <div>
-      <BrowserRouter>
+    <Router>
+      <div>
         <header>
           <h1>Tasks App Web</h1>
           <nav>
@@ -28,10 +25,9 @@ function App() {
             </ul>
           </nav>
         </header>
-
-        <AppRoutes /> 
-      </BrowserRouter>
-    </div>
+        <AppRoutes />
+      </div>
+    </Router>
   );
 }
 
