@@ -1,16 +1,14 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { Task } from "../.."
-import { RemoveTaskContext } from "../../../../providers/RemoveTaskContext";
-import { SaveTaskContext } from "../../../../providers/SaveTaskContext";
 
 interface TaskListItemProps {
   task: Task
+  onRemove: (task: Task) => void
+  onSave: (task: Task) => void
 }
 
-export function TaskListItem({ task }: TaskListItemProps) {
+export function TaskListItem({ task, onRemove, onSave }: TaskListItemProps) {
 
-  const onRemove = useContext(RemoveTaskContext);
-  const onSave = useContext(SaveTaskContext);
 
   const [isEditing, setIsEditing] = useState(false)
   const refInput = useRef<HTMLInputElement>(null)

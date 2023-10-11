@@ -1,10 +1,13 @@
-import { useContext } from "react"
 import { TaskListItem } from "../TaskListItem"
-import { TasksContext } from "../../../../providers/TasksContext"
+import { Task } from "../.."
 
+interface TaskListProps {
+  tasks: Task[]
+  onRemove: (task: Task) => void
+  onSave: (task: Task) => void
+}
 
-const TaskList = () => {
-  const tasks = useContext(TasksContext) ;
+const TaskList = ({ tasks, onRemove, onSave }: TaskListProps) => {
 
   console.log('Lista renderizada!')
 
@@ -12,7 +15,7 @@ const TaskList = () => {
     <> 
       <h3>{tasks && tasks.length} Tarefas cadastradas</h3>
       <ul>
-        {tasks && tasks.map(task => <TaskListItem key={task.id} task={task} />)}
+      {tasks.map(task => <TaskListItem onRemove={onRemove} onSave={onSave} key={task.id} task={task} />)}
       </ul>
     </>
   )
